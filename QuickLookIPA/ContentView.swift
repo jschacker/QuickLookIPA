@@ -56,6 +56,7 @@ struct ContentView: View {
                 }
             }
             
+			/*
             Divider()
                 .padding(.top)
             
@@ -63,6 +64,7 @@ struct ContentView: View {
                 .font(.footnote)
                 .foregroundColor(.secondary)
                 .padding(.bottom, 8)
+			*/
         }
         .frame(minWidth: 720, minHeight: 520)
         .background(isTargeted ? Color.gray.opacity(0.2) : Color.clear)
