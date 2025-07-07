@@ -161,7 +161,7 @@ struct ContentView: View {
     
     func formatProvisioningProfile(_ rawXML: String) -> [(title: String, content: String, isWarning: Bool?)] {
         var sections: [(String, String, Bool?)] = []
-        let keys = ["Name", "AppIDName", "TeamName", "UUID"]
+        let keys = ["AppIDName", "Name", "TeamName", "TeamIdentifier", "UUID", "application-identifier", "aps-environment"]
         
         for key in keys {
             if let keyRange = rawXML.range(of: "<key>\(key)</key>") {
