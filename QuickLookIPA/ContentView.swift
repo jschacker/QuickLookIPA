@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var ipaInfoSections: [(title: String, content: String, isWarning: Bool?)] = []
     @State private var isTargeted = false
     @State private var errorMessage: String? = nil
+    @State private var copiedSectionIndex: Int? = nil
     
     var body: some View {
         VStack(spacing: 0) {
@@ -35,10 +36,36 @@ struct ContentView: View {
                         ForEach(ipaInfoSections.indices, id: \ .self) { index in
                             let section = ipaInfoSections[index]
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(section.title)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.secondary)
+                                HStack {
+                                    Text(section.title)
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                    Button {
+                                        let pasteboard = NSPasteboard.general
+                                        pasteboard.clearContents()
+                                        pasteboard.setString(section.content, forType: .string)
+                                        withAnimation(.easeInOut(duration: 0.1)) {
+                                            copiedSectionIndex = index
+                                        }
+                                        Task {
+                                            try? await Task.sleep(for: .seconds(1.0))
+                                            withAnimation(.easeInOut(duration: 0.1)) {
+                                                if copiedSectionIndex == index {
+                                                    copiedSectionIndex = nil
+                                                }
+                                            }
+                                        }
+                                    } label: {
+                                        Label("Copy", systemImage: copiedSectionIndex == index ? "checkmark" : "doc.on.doc")
+                                            .labelStyle(.iconOnly)
+                                            .contentTransition(.symbolEffect(.replace))
+                                            .frame(width: 16, height: 16)
+                                    }
+                                    .buttonStyle(.borderless)
+                                    .help("Copy to clipboard")
+                                }
                                 
                                 Text(section.content)
                                     .font(.system(.body, design: .monospaced))
