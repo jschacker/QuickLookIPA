@@ -43,10 +43,11 @@ struct ContentView: View {
                                 Text(section.content)
                                     .font(.system(.body, design: .monospaced))
                                     .foregroundColor(section.isWarning == nil ? .primary : (section.isWarning! ? .red : .green))
-                                    .padding(10)
+                                    .textSelection(.enabled)
+                                   .padding(4)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                     .background(
-                                        RoundedRectangle(cornerRadius: 10)
+                                        RoundedRectangle(cornerRadius: 4)
                                             .fill(Color(NSColor.controlBackgroundColor))
                                     )
                             }
